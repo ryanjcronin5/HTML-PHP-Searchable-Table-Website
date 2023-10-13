@@ -9,6 +9,5 @@ function refreshServerStatus() {
     xhr.open('GET', 'serverStatus.php', true);
     xhr.send();
 }
-
 window.onload = refreshServerStatus;
-setInterval(refreshServerStatus, 10000);
+setInterval(refreshServerStatus, 60000);
