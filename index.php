@@ -4,6 +4,10 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Data Discovery Club</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Averia+Sans+Libre:wght@300&family=Ubuntu&display=swap" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.js"></script>
 		<link rel="stylesheet" href="index.css">
 	</head>
 	<body>
@@ -25,7 +29,7 @@
 				</form>
 				<h3>Server Status:</h3>
 				<div id="serverStatus">
-					<?php include 'serverStatus.php'; ?>
+					<?php include 'includes/serverStatus.php'; ?>
 				</div>
 			</section>
 			<aside>
@@ -52,23 +56,23 @@
 						}	
 					}
 					$result = $conn->query($sql);
-						if ($result->num_rows > 0) {
-							echo "<thead><tr><th colspan='2'>Full Name</th><th>Date of Birth</th><th>Suburb</th><th>City</th><th>Phone</th><th>Email</th></tr></thead>";
-							while ($row = $result->fetch_assoc()) {
-								echo "<tr>";
-								echo "<td>" . $row["LastName"] . "</td>";
-								echo "<td>" . $row["FirstName"] . "</td>";
-								echo "<td>" . $row["DateofBirth"] . "</td>";
-								echo "<td>" . $row["Suburb"] . "</td>";
-								echo "<td>" . $row["City"] . "</td>";
-								echo "<td>" . $row["Phone"] . "</td>";
-								echo "<td>" . $row["Email"] . "</td>";
-								echo "</tr>";
-							}
-						} else {
-							echo "No results found.";
+					if ($result->num_rows > 0) {
+						echo "<thead><tr><th colspan='2'>Full Name</th><th>Date of Birth</th><th>Suburb</th><th>City</th><th>Phone</th><th>Email</th></tr></thead>";
+						while ($row = $result->fetch_assoc()) {
+							echo "<tr>";
+							echo "<td>" . $row["LastName"] . "</td>";
+							echo "<td>" . $row["FirstName"] . "</td>";
+							echo "<td>" . $row["DateofBirth"] . "</td>";
+							echo "<td>" . $row["Suburb"] . "</td>";
+							echo "<td>" . $row["City"] . "</td>";
+							echo "<td>" . $row["Phone"] . "</td>";
+							echo "<td>" . $row["Email"] . "</td>";
+							echo "</tr>";
 						}
-						$conn->close();		
+					} else {
+						echo "No results found.";
+					}
+					$conn->close();		
 					?>
 				</table>
 				<table id="resultTable2" style="display: none;">
@@ -120,6 +124,58 @@
 				</table>
 			</aside>
 		</div>
+		<section class="base">
+			<div style="width: 80%; margin: 0 auto;">
+        		<canvas id="byteGraph"></canvas>
+				<script>
+					var data = {
+					labels: [],
+					datasets: [
+							{label: 'Bytes Sent', borderColor: 'rgb(75, 192, 192)', fill: false, data: [],},
+							{label: 'Bytes Received', borderColor: 'rgb(255, 99, 132)', fill: false, data: [],},
+						],
+					};
+					var config = {
+						type: 'line',
+						data: data,
+						options: {
+							responsive: true,
+							scales: {
+								x: {display: true, min: 0, title: {display: true, text: 'Time',},},
+								y: {beginAtZero: true, title: {display: true, text: 'Bytes',},},
+							},
+						},
+					};
+					var ctx = document.getElementById('byteGraph').getContext('2d');
+					var chart = new Chart(ctx, config);
+					function updateGraph() {
+						fetch('includes/graph.php')
+							.then(response => response.json())
+							.then(data => {
+								var time = new Date().toLocaleTimeString();
+								var bytesSent = parseInt(data['BYTES_SENT']);
+								var bytesReceived = parseInt(data['BYTES_RECEIVED']);
+								if (!Array.isArray(config.data.labels)) {
+									config.data.labels = [];
+									config.data.datasets[0].data = [];
+									config.data.datasets[1].data = [];
+								}
+								config.data.labels.push(time);
+								config.data.datasets[0].data.push(bytesSent);
+								config.data.datasets[1].data.push(bytesReceived);
+								if (config.data.labels.length > 10) {
+									config.data.labels.shift();
+									config.data.datasets[0].data.shift();
+									config.data.datasets[1].data.shift();
+								}
+								chart.update();
+							})
+							.catch(error => console.error(error));
+					}
+					setInterval(updateGraph, 2000);
+				</script>
+    		</div>
+		</section>
 		<footer class="base">
 			<h3>Footer</h3>
 		</footer>
