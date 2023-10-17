@@ -1,31 +1,34 @@
+/* Define CSS variables for colour and styling options */
 :root {
-    --background-color: #f2f2f2;
-    --text-border-color: #333;
-    --element-bg-color: #fff;
+    --background-color: rgb(232, 232, 232);
+    --text-border-color: rgb(51, 51, 51);
+    --element-bg-color: rgb(255, 255, 255);
     --box-shadow-color: rgba(0, 0, 0, 0.1);
-    --input-border-color: #ccc;
-    --button-color: white;
-    --button-active-color: #0000FF;
-    --table-border-color: #ddd;
-    --table-alt-row-color: #D6EEEE;
+    --input-border-color: rgb(204, 204, 204);
+    --button-color: rgb(255, 255, 255);
+    --button-active-color: rgb(0, 0, 255);
+    --table-border-color: rgb(225, 225, 225);
+    --table-alt-row-color: rgb(214, 238, 238);
 }
 
+/* Define styles for dark mode using a media query */
 @media (prefers-color-scheme: dark) {
     :root {
-        --background-color: #111;
-        --text-border-color: #eee;
-        --element-bg-color: #333;
+        --background-color: rgb(17, 17, 17);
+        --text-border-color: rgb(238, 238, 238);
+        --element-bg-color: rgb(51, 51, 51);
         --box-shadow-color: rgba(255, 255, 255, 0.1);
-        --input-border-color: #555;
-        --button-color: #222;
-        --button-active-color: #0000B2;
-        --table-border-color: #555;
-        --table-alt-row-color: #404747;
+        --input-border-color: rgb(85, 85, 85);
+        --button-color: rgb(34, 34, 34);
+        --button-active-color: rgb(0, 140, 186);
+        --table-border-color: rgb(85, 85, 85);
+        --table-alt-row-color: rgb(64, 71, 71);
     }
 }
 
+/* Basic styling for the entire body of the pages */
 body {
-    /* Basic Styling */
+    /* General Styling */
     background-color: var(--background-color);
     color: var(--text-border-color);
     font-family: 'Ubuntu', sans-serif;
@@ -38,7 +41,7 @@ body {
     overflow-x: hidden;
     scroll-behavior: smooth;
 
-    /* Flexbox */
+    /* Flexbox layout for body */
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
@@ -47,6 +50,7 @@ body {
     align-content: start;
 }
 
+/* Styling for the page header */
 header {
     margin-top: 1em;
     background-color: var(--text-border-color);
@@ -55,6 +59,7 @@ header {
     font-size: 1.5em;
 }
 
+/* Styling for the page footer */
 footer {
     left: 0;
     bottom: 0;
@@ -66,10 +71,12 @@ footer {
     text-align: center;
 }
 
+/* Styling for sub-headings (h3) */
 h3:not(:first-child) {
     margin-top: 2em;
 }
 
+/* Base style for content sections */
 .base {
     flex: 1;
     margin: 0.5em;
@@ -79,6 +86,7 @@ h3:not(:first-child) {
     border-radius: 5px;
 }
 
+/* Styling for containers using flex layout */
 .container_base {
     display: flex;
     flex-wrap: wrap;
@@ -91,25 +99,28 @@ h3:not(:first-child) {
     margin: 0.5em;
 }
 
+/* Styling for sections (with the exception of .base) */
 section:not(.base) {
     width: 40%;
 }
 
+/* Styling for text input elements */
 input[type="text"] {
     width: 100%;
     padding: 12px;
     margin: 8px 0;
     box-sizing: border-box;
-    border: 2px solid var(--input-border-color);
+    border: 3px solid var(--input-border-color);
     border-radius: 5px;
     transition: border-color 0.3s ease;
     outline: none;
 }
 
 input[type="text"]:focus {
-    border-color: #4CAF50;
+    border-color: rgb(76, 175, 80);
 }
 
+/* Styling for buttons */
 .button {
     border: none;
     color: var(--button-color);
@@ -121,12 +132,14 @@ input[type="text"]:focus {
     border-radius: 5px;
 }
 
+/* Styling for active (clicked) buttons */
 .swapBtn.active {
 	background-color: var(--button-active-color);
 	border: 1px solid var(--button-color);
 	color: var(--button-color);
 }
 
+/* Styling for buttons */
 .swapBtn {
 	background-color: var(--button-color);
 	border: 1px solid var(--button-active-color);
@@ -134,49 +147,48 @@ input[type="text"]:focus {
     margin-bottom: 8px;
 }
 
+/* Styling for button groups */
 .buttonGroup {
     display: flex;
     gap: 5px;
 }
 
+/* Styling for button width within button groups */
 .buttonGroup button {
     width: 50%;
 }
 
+/* Styling for the search button */
 .buttonSearch {
-    background-color: #4CAF50;
+    background-color: rgb(76, 175, 80);
 }
 
+/* Styling for the clear button */
 .buttonClear {
-    background-color: #008CBA;
+    background-color: rgb(0, 140, 186);
 }
 
-#resultTable {
+/* Styling for tables displaying search results */
+#resultTable, #resultTable2 {
     border-collapse: collapse;
     background-color: var(--element-bg-color);
-    border: 1px solid var(--table-border-color);
+    border: 3px solid var(--table-border-color);
     width: 50vw;
-    min-width: 50vw;
 }
 
-#resultTable2 {
-    border-collapse: collapse;
-    background-color: var(--element-bg-color);
-    border: 1px solid var(--table-border-color);
-    width: 50vw;
-    min-width: 50vw;
-}
-
+/* Styling for the footer row in tables */
 #table_footer_row {
     background-color: var(--element-bg-color);
     font-weight: 600;
     color: var(--text-border-color);
 }
 
+/* Styling for table headers and table cells */
 th, td {
     padding: 15px 10px;
 }
 
+/* Styling for alternating rows in tables (odd rows) */
 tr:not(thead tr):nth-child(odd) {
     background-color: var(--table-alt-row-color);
 }
