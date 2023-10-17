@@ -4,20 +4,34 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Data Discovery Club</title>
+
+		<!-- Preconnect to external resources -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+		<!-- Include external fonts for the page -->
 		<link href="https://fonts.googleapis.com/css2?family=Averia+Sans+Libre:wght@300&family=Ubuntu&display=swap" rel="stylesheet">
+
+		<!-- Include Chart.js library for charts -->
 		<script src="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.js"></script>
+
+		<!-- Link to external stylesheet (index.css) for styling -->
 		<link rel="stylesheet" href="index.css">
 	</head>
 	<body>
+		<!-- Page Header -->
 		<header class="base">
 			<h1>Data Discovery Club Members List</h1>
 		</header>
+
+		<!-- Introduction Section -->
 		<section class="base">
 			<p>Welcome to our Data Discovery Club Database! Our platform provides a simple and effective way to search for members and their information. Whether you're looking for specific individuals or just exploring, our user-friendly search feature allows you to find members based on their last name, first name, or other criteria. With a clear and intuitive interface, you can quickly access details such as date of birth, contact information, and more. Plus, our responsive design ensures that you can access the database on any device. Explore, search, and discover with ease on our Data Discovery Club Database!</p>
 		</section>
+
+		<!-- Main Content Container -->
 		<div class="base container_base">
+			<!-- Search and Server Status Section -->
 			<section>
 				<h3>Club Member Look Up</h3>
 				<form action="" method="post">
@@ -29,15 +43,20 @@
 				</form>
 				<h3>Server Status:</h3>
 				<div id="serverStatus">
-					<?php include 'includes/serverStatus.php'; ?>
+					<?php include 'serverStatus.php'; ?>
 				</div>
 			</section>
+
+			<!-- Table Display and Switching Section -->
 			<aside>
 				<div class="buttonGroup" style="width: 100%;">
 					<button id="btn1" class="button swapBtn active" onclick="showTable(1)">User Details</button>
 					<button id="btn2" class="button swapBtn" onclick="showTable(2)">Financial Details</button>
 				</div>
+
+				<!-- User Details Table -->
 				<table id="resultTable">
+					<!-- PHP code to retrieve and display user details -->
 					<?php
 					include 'includes/dbc_inc.php';
 					$sql = "SELECT u.LastName, u.FirstName, COALESCE(u.DateofBirth,'Not Listed') AS DateofBirth, COALESCE(a.Suburb, 'Not Listed') AS Suburb, COALESCE(a.City, 'Not Listed') AS City, COALESCE(c.Phone, 'Not Listed') AS Phone, COALESCE(c.Email, 'Not Listed') AS Email FROM users u LEFT JOIN address a ON u.AddressID = a.ID LEFT JOIN contact c ON u.ContactID = c.ID";
@@ -75,7 +94,10 @@
 					$conn->close();		
 					?>
 				</table>
+
+				<!-- Financial Details Table -->
 				<table id="resultTable2" style="display: none;">
+					<!-- PHP code to retrieve and display financial details -->
 					<?php
 					include 'includes/dbc_inc.php';
 					$sql = "SELECT u.LastName, u.FirstName, o.RefID, o.DateofPurchase, o.ItemNum, o.TotalCost, o.Owed, o.Status, a.Credit FROM users u JOIN orders o ON u.OrdersID = o.ID JOIN account a ON u.AccountID = a.ID";
@@ -124,10 +146,13 @@
 				</table>
 			</aside>
 		</div>
+
+		<!-- Graph Section -->
 		<section class="base">
 			<div style="width: 80%; margin: 0 auto;">
         		<canvas id="byteGraph"></canvas>
 				<script>
+					// JavaScript code to create and update a line chart
 					var data = {
 					labels: [],
 					datasets: [
@@ -176,14 +201,19 @@
 				</script>
     		</div>
 		</section>
+
+		<!-- Footer Section -->
 		<footer class="base">
 			<h3>Footer</h3>
 		</footer>
+
+		<!-- JavaScript functions for clearing search and switching tables -->
 		<script>
 		function clearSearch() {
 			document.getElementById('searchInput').value = '';
 		}
 		function showTable(tableNumber) {
+			// JavaScript code to switch between user and financial details tables
 			if (tableNumber === 1) {
 				document.getElementById('resultTable').style.display = 'table';
 				document.getElementById('resultTable2').style.display = 'none';
@@ -197,6 +227,8 @@
 			}
 		}
 		</script>
+
+		<!-- Include external Javascript file (index.js) -->
 		<script src="index.js"></script>
 	</body>
 </html>
