@@ -36,6 +36,15 @@
 				<h3>Club Member Look Up</h3>
 				<form action="" method="post">
 					<input type="text" id="searchInput" name="searchInput" placeholder="Search...">
+					<select name="option" id="option">
+						<option value="u.LastName">Last Name</option>
+						<option value="u.FirstName">First Name</option>
+						<option value="u.DateofBirth">Date of Birth</option>
+						<option value="a.Suburb">Suburb</option>
+						<option value="a.City">City</option>
+						<option value="c.Phone">Phone</option>
+						<option value="c.Email">Email</option>
+					</select>
 					<div class="buttonGroup" style="width: 100%;">
 						<button class="button buttonSearch" type="submit" name="submit">Search</button>
 						<button class="button buttonClear" type="submit" onclick="clearSearch()">Clear</button>
@@ -59,10 +68,22 @@
 					<!-- PHP code to retrieve and display user details -->
 					<?php
 					include 'includes/dbc_inc.php';
-					$sql = "SELECT u.LastName, u.FirstName, COALESCE(u.DateofBirth,'Not Listed') AS DateofBirth, COALESCE(a.Suburb, 'Not Listed') AS Suburb, COALESCE(a.City, 'Not Listed') AS City, COALESCE(c.Phone, 'Not Listed') AS Phone, COALESCE(c.Email, 'Not Listed') AS Email FROM users u LEFT JOIN address a ON u.AddressID = a.ID LEFT JOIN contact c ON u.ContactID = c.ID";
+					$sql = 
+					"SELECT 
+						u.LastName, 
+						u.FirstName, 
+						COALESCE(u.DateofBirth,'Not Listed') AS DateofBirth, 
+						COALESCE(a.Suburb, 'Not Listed') AS Suburb, 
+						COALESCE(a.City, 'Not Listed') AS City, 
+						COALESCE(c.Phone, 'Not Listed') AS Phone, 
+						COALESCE(c.Email, 'Not Listed') AS Email 
+					FROM users u 
+					LEFT JOIN address a ON u.AddressID = a.ID 
+					LEFT JOIN contact c ON u.ContactID = c.ID";
 					$searchColumns = ["LastName", "FirstName", "DateofBirth", "Suburb", "City", "Phone", "Email"];
 					if(isset($_POST['submit'])) {
 						$search = $_POST['searchInput'];
+						$option = $_POST['option'];
 						$whereClause = "";
 						foreach ($searchColumns as $column) {
 							if ($whereClause !== "") {
@@ -71,12 +92,12 @@
 							$whereClause .= "$column LIKE '%$search%'";
 						}
 						if (!empty($whereClause)) {
-							$sql .= " WHERE $whereClause ORDER BY u.LastName, u.FirstName, c.Phone";
+							$sql .= " WHERE $whereClause ORDER BY $option";
 						}	
 					}
 					$result = $conn->query($sql);
 					if ($result->num_rows > 0) {
-						echo "<thead><tr><th colspan='2'>Full Name</th><th>Date of Birth</th><th>Suburb</th><th>City</th><th>Phone</th><th>Email</th></tr></thead>";
+						echo "<thead><tr><th>Last Name</th><th>First Name</th><th>Date of Birth</th><th>Suburb</th><th>City</th><th>Phone</th><th>Email</th></tr></thead>";
 						while ($row = $result->fetch_assoc()) {
 							echo "<tr>";
 							echo "<td>" . $row["LastName"] . "</td>";
