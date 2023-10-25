@@ -1,3 +1,6 @@
+## Website Preview
+![alt text](https://github.com/ryanjcronin5/HTML-PHP-Searchable-Table-Website/blob/main/localhost_ASCmemberSearch_%20(1).png "Website Preview")
+
 ## Template Code
 I would love to see what you create with this code so please contact me if you use it.
 #### [Database connection:](https://github.com/ryanjcronin5/memberListSearch/blob/129b477adb3c474580a989d215079acea8ea5e8b/includes/dbc_inc.php)
