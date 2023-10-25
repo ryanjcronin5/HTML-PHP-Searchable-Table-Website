@@ -106,7 +106,18 @@ section:not(.base) {
 
 /* Styling for text input elements */
 input[type="text"] {
-    width: 100%;
+    width: 80%;
+    padding: 12px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid var(--input-border-color);
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+#option {
+    width: 19.5%;
     padding: 12px;
     margin: 8px 0;
     box-sizing: border-box;
@@ -150,7 +161,7 @@ input[type="text"]:focus {
 /* Styling for button groups */
 .buttonGroup {
     display: flex;
-    gap: 5px;
+    gap: 10px;
 }
 
 /* Styling for button width within button groups */
